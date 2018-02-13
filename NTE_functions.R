@@ -113,7 +113,7 @@ lagMIMat <- function(matrixData,numRep, stepSize){
   lagMatrix <- matrix(ncol=numGenes,nrow=numGenes)
   for (i in 1:numGenes){
     for (j in 1:numGenes){
-      lagVec<- discretize2d(headMatrix[,i],tailMatrix[,j],numBins,numBins)
+      lagVec<- suppressWarnings(discretize2d(headMatrix[,i],tailMatrix[,j],numBins,numBins))
       lagMatrix[i,j] <- suppressWarnings(mi.empirical(lagVec,unit=c("log2")))
     }
   }
