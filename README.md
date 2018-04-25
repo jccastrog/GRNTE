@@ -41,4 +41,13 @@ Example:
 	Time2_Rep1 Time2_Rep1
 	Time2_Rep2 Time2_Rep1
 
+### Output
+
+The output
+
+Example:
+
+	gene1	gene2	MI	pVal
+	Gene1	Gene2	0.284118818391665	0.007
+	Gene2	Gene1	0.347639832952096	0.304
 
