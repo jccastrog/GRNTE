@@ -30,4 +30,15 @@ You can also download the zip file from the GitHub site [https://github.com/jcca
 ## Running NTE
 
 ### Input
-The input is a table that includes the time series expression data for a series of transcription factors.
+
+The input is a table that includes the time series expression data for a series of transcription factors, columns are genes and rows are time points For each time point replicates have to be consecutive if replicates are missing NA should be added.
+
+Example:
+
+	Gene1	Gene2
+	Time1_Rep1 Time1_Rep1
+	Time1_Rep2 Time2_Rep1
+	Time2_Rep1 Time2_Rep1
+	Time2_Rep2 Time2_Rep1
+
+
