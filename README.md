@@ -43,11 +43,18 @@ Example:
 
 ### Output
 
-The output
+The output is a table with tab separated values, the first column is the regulator node and the second column is the regulated gene. Third column is the mutual information value for the two expression profiles, without lag. And the fourth column is the pValue for the interaction.
 
 Example:
 
 	gene1	gene2	MI	pVal
 	Gene1	Gene2	0.284118818391665	0.007
-	Gene2	Gene1	0.347639832952096	0.304
+	Gene2	Gene1	0.284118818391665	0.304
 
+### Options
+
+num_reps[INTEGER]: The number of replicates of the experiment.
+num_rand[INTEGER]: Number of mutual information randomizations. Used to calculate the p value of mutual information.
+dynamical[LOGICAL]: Wheter or not the optimal lag step is chosen for each gene. Might increase the computation time significantly.
+max_step[INTEGER]: Maximum step to use as lag.
+step_size[INTEGER]: The step size to be used by default for all genes. Invalid if dynamical=TRUE.
