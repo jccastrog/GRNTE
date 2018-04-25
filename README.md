@@ -27,7 +27,7 @@ Clone the git repository
 
 You can also download the zip file from the GitHub site [https://github.com/jccastrog/NTE](https://github.com/jccastrog/NTE).
 
-##Running NTE
+## Running NTE
 
-###Input
+### Input
 The input is a table that includes the time series expression data for a series of transcription factors.
