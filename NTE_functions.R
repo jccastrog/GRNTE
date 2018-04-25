@@ -28,7 +28,6 @@ if(any(!(packages %in% installed.packages()))){
 suppressPackageStartupMessages(library(optparse))
 suppressPackageStartupMessages(library(entropy))
 suppressPackageStartupMessages(library(gdata))
-
 # 1.2 Define functions =======================================================#
 #' Estimate mutual information (MI) for all pairs of variables in an expression
 #' matrix
@@ -190,17 +189,17 @@ option_list = list(
   make_option(c("-e", "--expression_matrix"), type = "character", default = NULL,
               help ="The expression matrix file.", metavar = "character"),
   make_option(c("-i", "--num_reps"), type = "integer", default = 1,
-              help ="Number of repetitions per time point. [default= %default]", metavar = "character"),
+              help ="Number of repetitions per time point. [default= %default]", metavar = "integer"),
   make_option(c("-r", "--num_rand"), type = "integer", default = 1000,
-              help ="Number of randomizations to perform in order to estimate empirical p values. [default= %default]", metavar = "character"),
+              help ="Number of randomizations to perform in order to estimate empirical p values. [default= %default]", metavar = "integer"),
   make_option(c("-d", "--dynamical_step"), type = "logical", default = FALSE,
-              help ="Perform dynamical step optimization to achieve the optimal step size for each gene pair. [default= %default]", metavar = "character"),
+              help ="Perform dynamical step optimization to achieve the optimal step size for each gene pair. [default= %default]", metavar = "logical"),
   make_option(c("-m", "--max_step"), type = "numeric", default = 3,
-              help ="Maximum step to consider when performing optimization. [default= %default]", metavar = "character"),
+              help ="Maximum step to consider when performing optimization. [default= %default]", metavar = "integer"),
   make_option(c("-s", "--step_size"), type = "numeric", default = 1,
-              help ="Step size to be lagged (invalid if -d TRUE). [default= %default]", metavar = "character"),
+              help ="Step size to be lagged (invalid if -d TRUE). [default= %default]", metavar = "integer"),
   make_option(c("-o", "--output"), type = "character", default = "edge_list.txt",
-              help ="An edge for the esrtimated interactions, includes gene pairs mutual information values and p values  [default= %default]", metavar = "character")
+              help ="An edge for the estimated interactions, includes gene pairs mutual information values and p values  [default= %default]", metavar = "character")
 );
 # Add command line arguments
 opt_parser = OptionParser(option_list=option_list);
@@ -210,6 +209,9 @@ if (is.null(opt$expression_matrix)){
   print_help(opt_parser)
   err_str <- 'Argument missing "--expression_matrix" must be provided.\n'
   stop(err_str, call.=FALSE)
+} else if(is.null(opt$output)){
+  print_help(opt_parser)
+  err_str <- 'Argument missing "--output" must be provided.\n'
 }
 # Parse the command line arguments
 expressionMatrix <- opt$expression_matrix
@@ -221,19 +223,20 @@ stepSize <- opt$step_size
 output <- opt$output
 # 1.3.2 Load data #
 cat('Loading data... ')
-matrixData <- read.table(expression_matrix, h = T, stringsAsFactors = F)
+matrixData <- read.table(expressionMatrix, h = T, stringsAsFactors = F)
 numGenes <- ncol(matrixData)
 geneNames <- colnames(matrixData)
 cat('Done!\n')
 
 #====== 2.0 Estimate pairs of mutual information and their significance ======#
 # 2.1 Estimate data sphericity ===============================================#
-mlmfit <- lm(as.matrix(iniData)~1)
+mlmfit <- lm(as.matrix(matrixData)~1)
 stopifnot(mauchly.test(mlmfit)$p.value < 0.05)
 # 2.2 Calculate mutual information values ====================================#
+cat('Calculating mutual information values ... ')
 if (dynamical){
   #If dynamical optimization is specified
-  optMutual <- optLagDist(matrixData, numRep, stepSize, randomizations, maxStep)
+  optMutual <- optLagDist(matrixData = matrixData, numRep = numRep, stepSize = stepSize, randomizations = randomizations, maxStep = maxStep)
   adjMI <- optMutual$miMat
   adjPvals <- optMutual$pVals
   adjStep <- optMutual$stepMat
@@ -248,8 +251,8 @@ if (dynamical){
       }
   }
 } else {
-  iniMutual <- lagMIMat(matrixData,numRep,stepSize)
-  mutualNull <- nullLagDist(matrixData,numGenes,randomizations)
+  iniMutual <- lagMIMat(matrixData = matrixData,numRep = numRep,stepSize = stepSize)
+  mutualNull <- nullLagDist(matrixData = matrixData,numGenes,randomizations = randomizations, stepSize = stepSize)
   pValues <- infoScore(iniMutual,mutualNull,numGenes,randomizations)
   rownames(iniMutual) <- geneNames
   colnames(iniMutual) <- geneNames
@@ -264,7 +267,9 @@ if (dynamical){
       }
   }
 }
-
+cat('Done!\n')
 #======================= 3.0 Write the edge list file ========================#
+cat('Writing output...')
 write.table(x = edgeList, file = output, quote = F, sep = '\t', row.names = F)
+cat('Done!\n')
 #=============================================================================#
