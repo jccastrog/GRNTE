@@ -4,9 +4,9 @@ Network Reconstruction by Transfer Entropy. For license information, see
 
 ## Overview
 
-NTE uses transfer entropy to estimate the an edge list based on expression values for different sets of genes that cary in time.
+NTE uses transfer entropy to estimate an edge list based on expression values for different sets of genes that carry in time.
 
-INPUT: An expression matrix that has valiues of expression at different time points. The matrix structure should be configured so that genes are represented in columns and time points in rows. It should include a header with the names of the genes. The time points sould be in increasing order.
+INPUT: An expression matrix that has gene expression values at different time points. The matrix structure should be configured so that genes are represented in columns and time points in rows. It should include a header with the names of the genes. The time points sould be in increasing order.
 
 OUTPUT: An edge list of the interactions of the matrix. The edge list will include all the pairs of genes (self interactions are ignored. And a values of significance for each pair.
 ##System requirements
@@ -16,6 +16,10 @@ A working version of R with the following packages [https://www.r-project.org/](
 	optparse
 	entropy
 	gdata
+
+These packages can be installed from inside R as:
+
+   install.packages(c("optparse","entropy","gdata"))
 
 ## Installation
 
@@ -29,6 +33,9 @@ You can also download the zip file from the GitHub site [https://github.com/jcca
 
 ## Running NTE
 
+You can run NTE from you command line prompt like this, make sure you are in the directory where you have the NTE.R script:
+
+   Rscript NTE.R --expression_matrix example/example_input.tsv --num_reps 1 --output NTE_test.txt
 ### Input
 
 The input is a table that includes the time series expression data for a series of transcription factors, columns are genes and rows are time points For each time point replicates have to be consecutive if replicates are missing NA should be added.
