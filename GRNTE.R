@@ -1,9 +1,9 @@
 #!/usr/bin/env Rscript
 ################################################################################
-#Name:    NTE_functions.R
+#Name:    GRNTE.R
 #Author:  Juan C. Castro <jcastro37@gatech.edu>
 #         Diego M. Riaño P. <diriano@gmail.com>
-#Update:  07-Feb-2018
+#Update:  16-Dec-2018
 #Version: 1.0.2
 #License: GNU General Public License v3.0.
 #===============================================================================
