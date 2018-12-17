@@ -1,10 +1,10 @@
-# NTE
+# GRNTE
 Network Reconstruction by Transfer Entropy. For license information, see 
 [LICENSE](./LICENSE).
 
 ## Overview
 
-NTE uses transfer entropy to estimate an edge list based on expression values for different sets of genes that carry in time.
+GRNTE uses transfer entropy to estimate an edge list based on expression values for different sets of genes that carry in time.
 
 INPUT: An expression matrix that has gene expression values at different time points. The matrix structure should be configured so that genes are represented in columns and time points in rows. It should include a header with the names of the genes. The time points sould be in increasing order.
 
@@ -26,16 +26,16 @@ These packages can be installed from inside R as:
 Clone the git repository
 
    ```bash
-   $> git clone https://github.com/jccastrog/NTE
+   $> git clone https://github.com/jccastrog/GRNTE
    ``` 
 
-You can also download the zip file from the GitHub site [https://github.com/jccastrog/NTE](https://github.com/jccastrog/NTE).
+You can also download the zip file from the GitHub site [https://github.com/jccastrog/GRNTE](https://github.com/jccastrog/GRNTE).
 
-## Running NTE
+## Running GRNTE
 
-You can run NTE from you command line prompt like this, make sure you are in the directory where you have the NTE.R script:
+You can run GRNTE from you command line prompt like this, make sure you are in the directory where you have the GRNTE.R script:
 
-   Rscript NTE.R --expression_matrix example/example_input.tsv --num_reps 1 --output NTE_test.txt
+   Rscript GRNTE.R --expression_matrix example/example_input.tsv --num_reps 1 --output GRNTE_test.txt
 ### Input
 
 The input is a table that includes the time series expression data for a series of transcription factors, columns are genes and rows are time points For each time point replicates have to be consecutive if replicates are missing NA should be added.
